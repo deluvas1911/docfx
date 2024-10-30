@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks />
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Docfx.Common\Docfx.Common.csproj" />
+  </ItemGroup>
+</Project>
