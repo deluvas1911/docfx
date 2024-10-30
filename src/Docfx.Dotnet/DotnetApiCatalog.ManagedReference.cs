@@ -85,6 +85,7 @@ partial class DotnetApiCatalog
 
             // generate manifest file
             JsonUtility.Serialize(Path.Combine(config.OutputFolder, ".manifest"), indexer, indented: true);
+            Logger.LogInfo($"Saving manifest to {Path.Combine(config.OutputFolder, ".manifest")}");
         }
     }
 
