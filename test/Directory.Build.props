@@ -1,0 +1,37 @@
+<Project>
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!--
+    .NET 9 preview 2 or later run tests in parallel by default.
+    It is necessary to disable this feature because there are tests that need to be executed sequentially that are marked with `[Collection("docfx STA")]`.
+    -->
+    <TestTfmsInParallel>false</TestTfmsInParallel>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <ItemGroup>
+    <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(ContinuousIntegrationBuild)' == 'true' AND '$(PERCY_TOKEN)' == ''">
+    <VSTestResultsDirectory>$(MSBuildThisFileDirectory)TestResults</VSTestResultsDirectory>
+    <VSTestLogger>$(VSTestLogger);trx%3BLogFileName=TestResults-$(MSBuildProjectName)-$(TargetFramework).trx</VSTestLogger>
+    <VSTestLogger>$(VSTestLogger);html%3BLogFileName=TestResults-$(MSBuildProjectName)-$(TargetFramework).html</VSTestLogger>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit" />
+  </ItemGroup>
+</Project>
